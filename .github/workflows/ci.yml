@@ -44,11 +44,7 @@ jobs:
           java-version: 21
           cache: maven
 
-      - name: Build Jar
-        run: ./mvnw clean package
+      - run: ./mvnw clean package
 
-      - name: Upload Jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: employee-jar
-          path: target/*.jar
+      - name: Build Docker Image
+        run: docker build -t employee-api:${{ github.sha }} .
