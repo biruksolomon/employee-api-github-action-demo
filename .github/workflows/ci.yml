@@ -47,4 +47,4 @@ jobs:
       - run: ./mvnw clean package
 
       - name: Build Docker Image
-        run: docker build -t employee-api:${{ github.sha }} .
+        run: docker build -t employee:${{ github.sha }} .
