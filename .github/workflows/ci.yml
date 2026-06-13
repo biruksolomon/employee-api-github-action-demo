@@ -76,13 +76,23 @@ jobs:
 
     steps:
       - name: Development Deployment
-        run: |
-          echo "==================================="
-          echo "DEPLOYING TO DEVELOPMENT"
-          echo "Repository: ${{ github.repository }}"
-          echo "Image: ghcr.io/${{ github.repository }}:${{ github.sha }}"
-          echo "Environment: development"
-          echo "==================================="
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+          script: |
+            docker pull ghcr.io/${{ github.repository }}:latest
+            
+            docker stop employee-api || true
+            
+            docker rm employee-api || true
+            
+            docker run -d \
+            --name employee-api \
+            -p 8080:8080 \
+            ghcr.io/${{ github.repository }}:latest
 
   deploy-prod:
     name: Deploy Production
