@@ -64,6 +64,10 @@ jobs:
 
       - name: Push SHA
         run: docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+permissions:
+  contents: read
+  packages: write
         
 
 #      - name: Build Docker Image
