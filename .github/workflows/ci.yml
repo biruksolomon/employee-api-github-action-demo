@@ -63,3 +63,7 @@ jobs:
 
       - name: Show logs
         run: docker logs employee-api-test
+
+permissions:
+  contents: read
+  packages: write
