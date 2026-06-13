@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
 
   pull_request:
     branches:
@@ -69,6 +70,49 @@ jobs:
       - name: Push SHA
         run: docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
 
+
+  deploy-dev:
+  name: Deploy Development
+
+  if: github.ref == 'refs/heads/develop'
+
+  needs: build
+
+  runs-on: ubuntu-latest
+
+  environment: development
+
+  steps:
+    - name: Development Deployment
+      run: |
+        echo "==================================="
+        echo "DEPLOYING TO DEVELOPMENT"
+        echo "Repository: ${{ github.repository }}"
+        echo "Image: ghcr.io/${{ github.repository }}:${{ github.sha }}"
+        echo "Environment: development"
+        echo "==================================="
+  
+
+  deploy-prod:
+name: Deploy Production
+
+if: github.ref == 'refs/heads/main'
+
+needs: build
+
+runs-on: ubuntu-latest
+
+environment: production
+
+steps:
+  - name: Production Deployment
+    run: |
+      echo "==================================="
+      echo "DEPLOYING TO PRODUCTION"
+      echo "Repository: ${{ github.repository }}"
+      echo "Image: ghcr.io/${{ github.repository }}:${{ github.sha }}"
+      echo "Environment: production"
+      echo "==================================="
 
         
 
