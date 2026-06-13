@@ -76,24 +76,14 @@ jobs:
 
     steps:
       - name: Development Deployment
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-
           script: |
-            docker pull ghcr.io/${{ github.repository }}:latest
-            
-            docker stop employee-api || true
-            
-            docker rm employee-api || true
-            
-            docker run -d \
-            --name employee-api \
-            -p 8080:8080 \
-            ghcr.io/${{ github.repository }}:latest
-
+            # Your deployment commands here
+            echo "Deploying to development..."
   deploy-prod:
     name: Deploy Production
     if: github.ref == 'refs/heads/main'
