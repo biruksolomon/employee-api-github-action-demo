@@ -76,14 +76,14 @@ jobs:
 
     steps:
       - name: Development Deployment
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            # Your deployment commands here
-            echo "Deploying to development..."
+        run: |
+          echo "==================================="
+          echo "DEPLOYING TO DEVELOPMENT"
+          echo "Repository: ${{ github.repository }}"
+          echo "Image: ghcr.io/${{ github.repository }}:${{ github.sha }}"
+          echo "Environment: development"
+          echo "==================================="
+
   deploy-prod:
     name: Deploy Production
     if: github.ref == 'refs/heads/main'
