@@ -1,24 +1,44 @@
 package com.example.employee.controller;
 
-import com.example.employee.model.Employee;
+import com.example.employee.entity.Employee;
 import com.example.employee.service.EmployeeService;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
-@AllArgsConstructor
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     private final EmployeeService service;
 
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public Employee createEmployee(
+            @RequestBody Employee employee) {
+
+        return service.createEmployee(employee);
+    }
 
     @GetMapping
     public List<Employee> getEmployees() {
-        return service.getEmployees();
+        return service.getAllEmployees();
+    }
+
+    @GetMapping("/{id}")
+    public Employee getEmployee(
+            @PathVariable Long id) {
+
+        return service.getEmployee(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmployee(
+            @PathVariable Long id) {
+
+        service.deleteEmployee(id);
     }
 }
